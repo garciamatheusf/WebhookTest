@@ -40,7 +40,7 @@ public class WebhookController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response setWebcam(String jsonRequest){
+    public Response internalError(String jsonRequest){
         System.out.println("====================================================================");
         System.out.println("Conteúdo recebido: ");
         System.out.println(jsonRequest);

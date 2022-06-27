@@ -10,7 +10,6 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.ext.Provider;
-import java.io.IOException;
 
 public class JerseyStart {
 
@@ -28,15 +27,13 @@ public class JerseyStart {
         return instance;
     }
 
-    public void start() throws Exception {
+    public void start(int port) throws Exception {
 
         if (server !=null && server.isStarted()){
             return;
         }
 
-        String port = "8080";
-
-        server = new Server(Integer.valueOf(port));
+        server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(server, "/");
 
         ServletHolder servlet = new ServletHolder(JERSEY_SERVLET_NAME,
@@ -54,7 +51,7 @@ public class JerseyStart {
 
     public class JerseyConfiguration extends ResourceConfig {
 
-        public JerseyConfiguration() {
+        JerseyConfiguration() {
             packages("jersey.resources");
             register(new CORSFilter());
         }
@@ -65,7 +62,7 @@ public class JerseyStart {
 
         @Override
         public void filter(ContainerRequestContext request,
-                           ContainerResponseContext response) throws IOException {
+                           ContainerResponseContext response) {
             response.getHeaders().add("Access-Control-Allow-Origin", "*");
             response.getHeaders().add("Access-Control-Allow-Headers",
                     "origin, content-type, accept, authorization");
